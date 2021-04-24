@@ -17,11 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+///User registration Section ///
 
 Route::get('/registerdetails', [App\Http\Controllers\AccountController::class, 'getRegisterForm'])->name('regAccount');
 
@@ -29,31 +30,28 @@ Route::post('/registerdetails', [App\Http\Controllers\AccountController::class, 
 
 
 
-//
+///Managing Requests section ///
+Route::post('/displayAnimals', [App\Http\Controllers\AdoptionRequestController::class, 'processAdoptionRequest'])->name('adoptionRequest');
 
-///Admin only section ///
+Route::get('/ManageAdoptionRequest/{id}', [App\Http\Controllers\AdoptionRequestController::class, 'adoptionRequestsManagerForm'])->name('manageAdoptionRequests');
 
-Route::get('/ManageAdoptionRequest/{id}', [App\Http\Controllers\AccountController::class, 'adoptionRequestsManagerForm'])->name('manageAdoptionRequests');
-
-Route::post('/ManageAdoptionRequest/modify', [App\Http\Controllers\AccountController::class, 'modifyAdoptionStatus'])->name('modifyStatus');
+Route::post('/ManageAdoptionRequest/modify', [App\Http\Controllers\AdoptionRequestController::class, 'modifyAdoptionStatus'])->name('modifyStatus');
 
 
-//upload animal 
+///Uploading animal and picture section ///
 Route::get('/upload-animal', [App\Http\Controllers\AnimalController::class, 'uploadAnimal'])->name('uploadAnimal');
 
 Route::post('/upload-animal', [App\Http\Controllers\AnimalController::class, 'animaldataUpload'])->name('animaldata');
 
-//upload animal image
-Route::get('/upload-file/{id}', [App\Http\Controllers\AnimalController::class, 'createForm'])->name('imagesform');
+Route::get('/upload-file/{id}', [App\Http\Controllers\AnimalController::class, 'animalImageForm'])->name('imagesform');
 
 Route::post('/upload-file', [App\Http\Controllers\AnimalController::class, 'fileUpload'])->name('fileUpload');
 
 
-///////////////
 
-//display animals
+///Display animals Section ///
+
 Route::get('/MyAnimals', [App\Http\Controllers\AccountController::class, 'showAnimals'])->name('showMyAnimals');
 
 Route::get('/displayAnimals', [App\Http\Controllers\AccountController::class, 'displayAnimals'])->name('displayAnimals');
 
-Route::post('/displayAnimals', [App\Http\Controllers\AccountController::class, 'processAdoptionRequest'])->name('adoptionRequest');

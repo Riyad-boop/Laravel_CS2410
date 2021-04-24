@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Account; //task 2
-use App\Models\Animals; //cwk
-use App\Models\Images; //cwk
-use App\Models\AdoptionRequests; //cwk
-use DB; //cwk
-use Gate;   //lab 4 step 7
+use App\Models\Account; //gets accounts model
+use App\Models\Animals; //gets animals model
+use App\Models\Images; //gets images model
+use App\Models\AdoptionRequests; //gets requests model
+use Gate;   //authentication
 
 
 class AccountController extends Controller
@@ -77,95 +76,5 @@ class AccountController extends Controller
  
      return view('/displayAnimals', array('animals'=>$animalQuery , 'images'=>$imagesQuery, 'adoptionRequests' => $requestsQuery, 'account' => $account, 'userrole' => auth()->user()->role));
      }
-    
-
-    //adoptionrequests
-    public function adoptionRequestsManagerForm($id){
-
-        
-        //abort action if you are not an admin
-        if (Gate::denies('displayall')) {
-            abort(403, 'Unauthorized action.');
-            }
-
-            $myanimalid = $id;
-
-            $accounts =  Account::all();
-            $requestsQuery = AdoptionRequests::where('animalid',$myanimalid )->get();
-            $animalQuery = Animals::where('id',$myanimalid)->get();
-            $approvedOwner = $accounts->where('userid',$animalQuery[0]->userid);
-            $imagesQuery = Images::where('animalid',$myanimalid)->get();
-            
-
-            return view('/adoptionRequestManager', array(
-                'animals'=>$animalQuery , 
-                'images'=>$imagesQuery, 
-                'adoptionRequests'=>$requestsQuery,
-                'approvedaccount'=> $approvedOwner,
-                'accounts' =>$accounts,
-                'myuserid' => auth()->user()->id));
-    }
-
-    public function modifyAdoptionStatus(Request $request) {
-        
-        
-        //abort action if you are not an admin
-        if (Gate::denies('displayall')) {
-            abort(403, 'Unauthorized action.');
-            }
-            
-        $accountid = strip_tags(intval($request->useraccount));
-        $myanimalid = strip_tags(intval($request->animalid));
-        $message = "";
-
-        if(strip_tags($request->useradoptstatus) === "Approve"){
-                
-
-                AdoptionRequests::where('animalid',$myanimalid)->update(array(
-                    'pending'=>0,
-                    'denied'=>1,
-                ));
-
-                AdoptionRequests::where('animalid',$myanimalid)->where('userid',$accountid)->update(array(
-                    'denied'=>0,
-                    'adopted'=>1,
-                ));
-
-                //set new owner
-                Animals::where('id',$myanimalid)->update(array(
-                    'userid'=>$accountid,
-                ));
-                $message = 'You have approved an adoption request';
-        }
-        else if(strip_tags($request->useradoptstatus) === "Deny"){
-                AdoptionRequests::where('animalid',$myanimalid)->where('userid',$accountid)->update(array(
-                    'pending'=>0,
-                    'denied'=>1,
-                ));
-                $message = 'You have denied an adoption request';
-        }
-    
-        //update pending and denied users string array, and set a new approved user
-        // DB::update('update adoption_requests set adopted = ?, pending = ?, denied = ? , where id = ? , where animalid = ?',[1,0,0,$accountid,$myanimalid]); 
-
-        return back()
-        ->with('success', $message);
-        
-    }
-
-    public function processAdoptionRequest(Request $request){
-
-        $AdoptionRequestModel = new AdoptionRequests;
-        $AdoptionRequestModel->userid = auth()->user()->id;
-        $AdoptionRequestModel->animalid = strip_tags($request->myanimalid);
-        $AdoptionRequestModel->pending = 1;
-        $AdoptionRequestModel->denied = 0;
-        $AdoptionRequestModel->adopted = 0;
-        $AdoptionRequestModel->save();
-
-        
-         return back()
-         ->with('success', 'You have sucessfuly submitted an adoption request for ' . strip_tags($request->myanimalname));
-    }
    
 }

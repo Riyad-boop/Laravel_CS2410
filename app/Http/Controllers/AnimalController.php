@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Animals;
-use App\Models\Images;
-use Gate;   //lab 4 step 7
+use App\Models\Animals;	//get animal model
+use App\Models\Images;	//get images model
+use Gate;   //authentication
 
 class AnimalController extends Controller
 {
-    //text data upload 
+    //animal data upload form
     public function uploadAnimal()
     {
         //abort action if you are not an admin
@@ -28,12 +28,7 @@ class AnimalController extends Controller
             abort(403, 'Unauthorized action.');
             }
 
-        // $request->validate([
-        //     'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-
-
-        /* Store animal into DATABASE */
+       /* Store animal into DATABASE */
         $animalModel = new Animals;
       
         $animalModel->userid = 1;   //set default user owner to the admin which is id 1.
@@ -42,23 +37,15 @@ class AnimalController extends Controller
         $animalModel->DOB = strip_tags($request->DOB);
         $animalModel->description = strip_tags($request->animaldescription);
         $animalModel->save();
-
-
-       
-
-        // //returns session variables on sucessful post
-        // $imageName = time().'.'.$request->file->extension();  
-        // $request->file->move(public_path('images'), $imageName);
-
-        // redirect()->route()->with();
+    
         return back()
             ->with('success', 'You have sucessfuly uploaded a new animal')
             ->with('animalid', $animalModel->id);
     }
 
 
-    //image upload 
-    public function createForm($id)
+    //image upload form
+    public function animalImageForm($id)
     {
         //abort action if you are not an admin
         if (Gate::denies('displayall')) {
@@ -91,7 +78,7 @@ class AnimalController extends Controller
 
         $fileModel->name = basename($filePath); //stores filename
         $fileModel->file_path = '/storage/' . $filePath;
-        $fileModel->animalid = strip_tags($request->myanimalid);
+        $fileModel->animalid = $request->myanimalid;
         $fileModel->save();
 
         return back()

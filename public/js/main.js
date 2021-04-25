@@ -1,96 +1,114 @@
+//parameter n - reprsents the table column to get the td tag from 
 function sortTableByLetters(n) {
-  var table, rows, switching, i, x, y, shouldSwitch;
-  table = document.getElementById("myTable");
-  switching = true;
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
+  
+  //declare and initialise varaibles 
+  var mytable = document.getElementById("myTable");
+  var swtichBool = true; //bool to continually repeat checking over the table 
+  var tableRows, i, x, y;
+  var shouldSwitch;		//bool to handle swapping of elements
+  
+
+  /* While loop until no swtich is made */
+  while (switchBool == true) {
+    //set swtich to false 
+    switchBool = false;
+    tableRows = mytable.rows;
+  
+    //Loop through all table rows
     for (i = 1; i < (rows.length - 1); i++) {
       //start by saying there should be no switching:
       shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      //check if the two rows should switch place:
+      /*Get the two elements to compare*/
+      x = rows[i].getElementsByTagName("TD")[n];		//current row
+      y = rows[i + 1].getElementsByTagName("TD")[n];	//next row
+      
+    	//check if x value is greater than y
       if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-        //if so, mark as a switch and break the loop:
+         //preform a swtich bool to true
         shouldSwitch = true;
         break;
       }
     }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
+  	//if switch is true then swap elements
+    if (shouldSwitch == true) {
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
+      switchBool = true;
     }
   }
 }
 
+//parameter n - reprsents the table column to get the td tag from 
 function sortTableByDate(n) {
-  var table, rows, switching, i, x, y, shouldSwitch;
-  table = document.getElementById("myTable");
-  switching = true;
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
+   
+  //declare and initialise varaibles 
+  var mytable = document.getElementById("myTable");
+  var swtichBool = true; //bool to continually repeat checking over the table 
+  var tableRows, i, x, y;
+  var shouldSwitch;		//bool to handle swapping of elements
+  
+
+  /* While loop until no swtich is made */
+  while (switchBool == true) {
+    //set swtich to false 
+    switchBool = false;
+    tableRows = mytable.rows;
+  
+    //Loop through all table rows
     for (i = 1; i < (rows.length - 1); i++) {
       //start by saying there should be no switching:
       shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      //check if the two rows should switch place:
-      if (x.innerHTML > y.innerHTML) {
-        //if so, mark as a switch and break the loop:
+      /*Get the two elements to compare*/
+      x = rows[i].getElementsByTagName("TD")[n];		//current row
+      y = rows[i + 1].getElementsByTagName("TD")[n];	//next row
+      
+    	//check if x value is greater than y
+      if (x.innerHTML> y.innerHTML) {
+        //preform a swtich bool to true
         shouldSwitch = true;
         break;
       }
     }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
+  	//if switch is true then swap elements
+    if (shouldSwitch == true) {
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
+      switchBool = true;
     }
   }
 }
 
+//parameter n - reprsents the table column to get the td tag from 
+//parameter name - reprsents the id of the input html element
 function mysearchFunction(n,name){
- // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-   input = document.getElementById(name);
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
+ // Declaring variables
+  var input = document.getElementById(name);
+  var filter = input.value.toUpperCase();
+  var mytable = document.getElementById("myTable");
+  var tableRow = table.getElementsByTagName("tr");
+  var td, i, txtValue;
+  
 
   // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[n];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+  for (i = 0; i < tableRow.length; i++) {
+    td = tableRow[i].getElementsByTagName("td")[n];
+    //if there exists a table data, then fetch the text value within the td tag 
+  	if (td) {
+      txtValue = tableRow.textContent || tableRow.innerText;
+      
+    	//uses indexof to compare the string of the td value to the input string
+    	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //display the td element
         tr[i].style.display = "";
       } else {
+      //else hide the td element
         tr[i].style.display = "none";
       }
     }
   }
 }
 
+//paramter name - is the name file
 function displayFileName(name) {
 
+//set a html element with matching id to "filename" value, to the name of the file 
 document.getElementById("filename").innerHTML = name;
 }

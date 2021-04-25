@@ -65,7 +65,7 @@ class AnimalController extends Controller
 
         $request->validate([
 
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
 
         ]);
 

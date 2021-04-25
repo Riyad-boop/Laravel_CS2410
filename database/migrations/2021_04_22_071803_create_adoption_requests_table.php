@@ -19,7 +19,7 @@ class CreateAdoptionRequestsTable extends Migration
             $table->bigInteger('userid') ->unsigned(); // is the user this request is assoicated with
             $table ->foreign('userid')->references('id')->on('users'); // a reference to the user this request is assoicated with
             $table->bigInteger('animalid') ->unsigned(); // is the animal this request is assoicated with 
-            $table ->foreign('animalid')->references('id')->on('users'); // a reference to the animal this request is assoicated with
+            $table ->foreign('animalid')->references('id')->on('animals'); // a reference to the animal this request is assoicated with
             $table->boolean('adopted')->nullable()->default(false);
             $table->boolean('pending')->nullable()->default(false);
             $table->boolean('denied')->nullable()->default(false);

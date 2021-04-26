@@ -80,10 +80,7 @@
                                                         }
                                                 //else check if my user id matches in the table other columns
                                                 else{
-                                                        $pendingarray = explode(',', $animal->pendingUsers);
-                                                        $deniedarray = explode(',', $animal->deniedUsers);
-                                                        
-                                                        
+                                                                                                              
                                                         foreach ($adoptionRequests as $adoptreq) {
 
                                                             //check request denied column

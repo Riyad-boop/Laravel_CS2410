@@ -62,11 +62,20 @@
                             <li class="nav-item">
                                 <a class="nav-link"href="{{ route('uploadAnimal') }}" >Upload new Animal </a>
                             </li>
-                            @endif
-                
+
+                            <li class="nav-item">
+                                <a class="nav-link"href="{{ route('showMyAnimals') }}" >Manage my Animals </a>
+                            </li>
+
+                            @else
+
                             <li class="nav-item">
                                 <a class="nav-link"href="{{ route('showMyAnimals') }}" >Show my Animals </a>
                             </li>
+                            
+                            @endif
+                
+                           
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('displayAnimals') }}" >Animals for adoption </a>
                             </li>

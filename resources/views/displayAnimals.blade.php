@@ -40,7 +40,9 @@
                                     <tr>
                                         <th><button class = "btn btn-block" onclick="sortTableByLetters(0)">
                                         <strong>Request Status</strong></button>
+                                        @if($userrole !== 1)
                                         <input type="text" id="myRequestInput" onkeyup="mysearchFunction(0,this.id)" placeholder="Search for request status">
+                                        @endif
                                         </th>
                                         
                                          <th><button class = "btn btn-block" onclick="sortTableByLetters(1)">
@@ -120,12 +122,9 @@
                                                 <strong>Available for adoption</strong>
                                                 </div>';
                                             }
-                                        // else the animal is already owned by someone
+                                        // else the animal is already owned by someone so do not show on this tab
                                         else{
-                                            $message = '
-                                                        <div class="alert alert-success">
-                                                        <strong>Approved</strong>
-                                                        </div>';
+                                           continue;
                                         }
                                         @endphp
 

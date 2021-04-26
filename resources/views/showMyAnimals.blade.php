@@ -23,7 +23,11 @@
                         <table class="table table-striped table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th><button class = "btn btn-block" onclick="sortTableByLetters(0)"><strong>Request Status</strong></button></th>
+                                    <th><button class = "btn btn-block" onclick="sortTableByLetters(0)"><strong>Request Status</strong></button>
+                                        @if(Auth::user()->role === 1)
+                                        <input type="text" id="myRequestInput" onkeyup="mysearchFunction(0,this.id)" placeholder="Search for request status">
+                                        @endif
+                                       </th>
                                     
                                     <th><button class = "btn btn-block" onclick="sortTableByLetters(1)">
                                         <strong>Name</strong></button>
@@ -45,6 +49,21 @@
                                 @foreach ($animals as $animal)
                                     <tr>     
                                         <td>
+                                            <?php 
+                                            if($animal->userid ===1){
+                                            $message = '<div class="alert alert-info">
+                                                <strong>Available for adoption</strong>
+                                                </div>';
+                                            }
+                                            // else the animal is already owned by someone
+                                            else{
+                                                $message = '
+                                                            <div class="alert alert-success">
+                                                            <strong>Approved</strong>
+                                                            </div>';
+                                             }    
+                                             echo $message;
+                                            ?>
                                             @if (Auth::user()->role === 1)
                                                 <?php $redirecturl = url('ManageAdoptionRequest'); $redirecturl.= '/'.$animal->id; ?>
                                                 <a href= "{{$redirecturl}}">

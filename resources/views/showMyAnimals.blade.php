@@ -25,6 +25,22 @@
                                 <tr>
                                     <th><button class = "btn btn-block" onclick="sortTableByLetters(0)"><strong>Request Status</strong></button>
                                         @if(Auth::user()->role === 1)
+                                        <?php 
+                                        if($animal->userid ===1){
+                                        $message = '<div class="alert alert-info">
+                                            <strong>Available for adoption</strong>
+                                            </div>';
+                                        }
+                                        // else the animal is already owned by someone
+                                        else{
+                                            $message = '
+                                                        <div class="alert alert-success">
+                                                        <strong>Approved</strong>
+                                                        </div>';
+                                         }    
+                                         echo $message;
+                                        ?>
+                                        
                                         <input type="text" id="myRequestInput" onkeyup="mysearchFunction(0,this.id)" placeholder="Search for request status">
                                         @endif
                                        </th>

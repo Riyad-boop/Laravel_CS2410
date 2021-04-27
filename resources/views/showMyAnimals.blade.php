@@ -64,6 +64,26 @@
                                                             </div>';
                                              }    
                                              echo $message;
+
+                                             foreach ($adoptionRequests as $adoptreq) {
+
+                                                $alertmessage = "";
+
+                                                if($adoptreq->animalid === $animal->id)
+                                                {
+                                                    if ($adoptreq->pending === 1) {
+                                                                $alertmessage = '
+                                                        <div class="alert alert-secondary">
+                                                        <strong>There are pending requests for this animal</strong>
+                                                        </div>';
+                                                        //break;
+                                                    }
+                                                    echo $alertmessage;
+                                                    
+                                                }
+                                              
+                                                
+                                             }
                                             ?>
                                         
                                                 <?php $redirecturl = url('ManageAdoptionRequest'); $redirecturl.= '/'.$animal->id; ?>

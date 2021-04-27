@@ -47,14 +47,16 @@ class AccountController extends Controller
 
     $animalQuery = Animals::all();
     $imagesQuery = Images::all();
+    $requestsQuery = AdoptionRequests::all();
 
     //only show all animals if you are the admin, else display animals which are not already adopted by this user 
     if (Gate::denies('displayall')) {
         $animalQuery=$animalQuery->where('userid', auth()->user()->id);
+        $requestsQuery=$requestsQuery->where('userid', auth()->user()->id);
     }
    
         
-    return view('/showMyAnimals', array('animals'=>$animalQuery , 'images'=>$imagesQuery));
+    return view('/showMyAnimals', array('animals'=>$animalQuery , 'images'=>$imagesQuery, 'adoptionRequests' => $requestsQuery));
     }
 
 

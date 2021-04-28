@@ -76,10 +76,9 @@
                                                         <div class="alert alert-secondary">
                                                         <strong>There are pending requests for this animal</strong>
                                                         </div>';
-                                                        //break;
-                                                    }
-                                                    echo $alertmessage;
-                                                    
+                                                        echo $alertmessage;
+                                                        break;
+                                                    }                                                    
                                                 }
                                               
                                                 

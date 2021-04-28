@@ -67,6 +67,10 @@
                                 <a class="nav-link"href="{{ route('showMyAnimals') }}" >Manage my Animals </a>
                             </li>
 
+                             <li class="nav-item">
+                                <a class="nav-link"href="{{ route('viewRequests') }}" >View all user requests</a>
+                            </li>
+
                             @else
 
                             <li class="nav-item">

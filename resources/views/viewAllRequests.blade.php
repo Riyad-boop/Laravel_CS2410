@@ -1,3 +1,5 @@
+<script src= {{asset('js/home.js')}}></script>
+
 @extends('layouts.app')
 @section('content')
 
@@ -34,9 +36,15 @@
                                     <th>Users
                                         <input type="text" id="myAccountInput" onkeyup="mysearchFunction(1,this.id)" placeholder="Search for users">
                                     </th>
-                                    <th>Status
-                                        <input type="text" id="myRequestInput" onkeyup="mysearchFunction(2,this.id)" placeholder="Search for request status">
-                                    </th>
+                                    <th>Status<br>
+                                        <input type="hidden" id="myHiddenInput" onload="mysearchFunction(2,this.id)" value = "Pending">
+                                            <select class="form-select" id="mySelect" onchange="mysearchFunction(2,this.id)">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Denied">Denied</option>
+                                            <option value="Accepted">Accepted</option>
+                                              <option value="">All</option>
+                                            
+                                        </th>
                                     
                                     
                                 </tr>

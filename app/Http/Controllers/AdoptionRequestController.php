@@ -101,4 +101,28 @@ class AdoptionRequestController extends Controller
          return back()
          ->with('success', 'You have sucessfuly submitted an adoption request for ' . strip_tags($request->myanimalname));
     }
+
+
+     // All user Adoptionrequests 
+     public function allAdoptionRequestsForm(){
+
+        
+        //abort action if you are not an admin
+        if (Gate::denies('displayall')) {
+            abort(403, 'Unauthorized action.');
+            }
+
+            $accounts =  Account::all();
+            $requestsQuery = AdoptionRequests::all();
+            $animalQuery = Animals::all();
+            $imagesQuery = Images::all();
+            
+
+            return view('/viewAllRequests', array(
+                'animals'=>$animalQuery , 
+                'images'=>$imagesQuery, 
+                'adoptionRequests'=>$requestsQuery,
+                'accounts' =>$accounts,
+                'myuserid' => auth()->user()->id));
+    }
 }

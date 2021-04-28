@@ -37,6 +37,8 @@ Route::get('/ManageAdoptionRequest/{id}', [App\Http\Controllers\AdoptionRequestC
 
 Route::post('/ManageAdoptionRequest/modify', [App\Http\Controllers\AdoptionRequestController::class, 'modifyAdoptionStatus'])->name('modifyStatus');
 
+Route::get('/ManageAdoptionRequest_Viewall', [App\Http\Controllers\AdoptionRequestController::class, 'allAdoptionRequestsForm'])->name('viewRequests');
+
 
 ///Uploading animal and picture section ///
 Route::get('/upload-animal', [App\Http\Controllers\AnimalController::class, 'uploadAnimal'])->name('uploadAnimal');

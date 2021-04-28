@@ -7,37 +7,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     </head>
 
-    <style>
-        img {
-            border: 1px solid #ddd;
-            /* Gray border */
-            border-radius: 4px;
-            /* Rounded border */
-            padding: 5px;
-            /* Some padding */
-            width: 150px;
-            /* Set a small width */
-        }
-
-        /* Add a hover effect (blue shadow) */
-        img:hover {
-            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-        }
-
-    </style>
-
     <div class="container">
                 <div class="card">
                     <div class="card-header">Dashboard</div>
-
-                    <div class="card" style="width: 18rem; margin: auto; margin-top: 1rem;">
-                        <img  class="card-img-top" src="{{ asset('/storage/uploads/' . $images[0]->name) }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $animals[0]->name }}</h5>
-                          <p class="card-text">{{ $animals[0]->description}}</p>
-                        </div>
-                      </div>
-
                     <div class="card-body">
 
                         @if (session('status'))
@@ -53,34 +25,63 @@
                           </div>
                         @endif
 
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>Users</th>
-                                    <th>Status</th>
+                                    <th>Animal
+                                        <input type="text" id="myAnimalInput" onkeyup="mysearchFunction(0,this.id)" placeholder="Search for animals">
+                                    </th>
+                                    <th>Users
+                                        <input type="text" id="myAccountInput" onkeyup="mysearchFunction(1,this.id)" placeholder="Search for users">
+                                    </th>
+                                    <th>Status
+                                        <input type="text" id="myRequestInput" onkeyup="mysearchFunction(2,this.id)" placeholder="Search for request status">
+                                    </th>
+                                    
+                                    
                                 </tr>
                             </thead>
                             <tbody>
-
-                                {{-- adds approved account to top of list by default --}}
-                                @if (count($approvedaccount) !== 0)
-                                <tr>
-                                    @foreach ($approvedaccount as $account )
-                                    <td>   {{ $account->firstname }} {{ $account->lastname }} <br> {{ $account->occupation}} <br>{{ $account->contactemail }} <br> {{ $account->contactnumber }} <br> </td>
-                                                
-                                    <td>
-                                        <div class="alert alert-success">
-                                        <strong>Approved</strong>
-                                        </div>
-                                    </td>
-                                </tr>
-                                    @break
-                                    @endforeach
-                                @endif
-
-
                                 @foreach  ($adoptionRequests as $adoptreq)
                                     <tr>
+                                        <td>
+                                            <?php $thisanimal; ?>
+
+                                            @foreach ($animals as $animal) 
+                                           
+                                            <?php $thisanimal = $animal; ?>
+
+                                            @if ($animal->id === $adoptreq->animalid) 
+                                                @foreach ($images as $img)
+                                                        @if ($img->animalid !== $animal->id) 
+                                                            @continue
+                                                        @else
+
+                                                        <div class="card" style="width: 10rem; margin: auto; margin-top: 1rem;">
+                                                            <a href="{{asset('/storage/uploads/' . $img->name) }}">
+                                                                <img  class="card-img-top" src="{{ asset('/storage/uploads/' . $img->name) }}">
+                                                            </a>
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">{{ $animal->name }}</h5>
+                                                              <p class="card-text">{{ $animal->description}}</p>
+                                                            </div>
+                                                          </div>
+                                                        @break
+
+                                                        @endif
+                                 
+                                                @endforeach
+                                               
+                                    @break
+                                            
+                                            @else 
+                                    @continue
+                                            @endif
+                                            
+                                        
+                                    @endforeach
+                                        </td>
+
                                         @foreach($accounts as $account)
                                             @if($adoptreq->userid !== $account->userid)
                                                 @continue;
@@ -95,11 +96,11 @@
                                                         </div>
                                                     
                                                             {{-- if the animal is already owned by someone the buttons will not show  --}}
-                                                            @if ($animals[0]->userid === 1) 
+                                                            @if ($animal->userid === 1) 
                                                                 <form method="POST" action="{{ route('modifyStatus') }}">
                                                                     @csrf
                                                                         <input type="hidden" id="useraccount" name="useraccount" value="{{ $account->userid }}">
-                                                                        <input type="hidden" id="animalid" name="animalid" value="{{ $animals[0]->id }}">
+                                                                        <input type="hidden" id="animalid" name="animalid" value="{{ $thisanimal->id }}">
                                                                       
                                                                         <button type = submit class = "btn btn-danger" id="useradoptstatus_adopt" name="useradoptstatus" value = "Deny" style= "margin-right: 35%">Deny</button>
                                                                         <button type = submit class = "btn btn-success" id="useradoptstatus_deny" name="useradoptstatus" value = "Approve">Approve</button>
@@ -116,6 +117,15 @@
                                                             <strong>Denied</strong>
                                                         </div>
                                                     </td>
+                                                    @break;
+
+                                                @elseif ($adoptreq->adopted === 1)
+                                                <td>   {{ $account->firstname }} {{ $account->lastname }} <br> {{ $account->occupation}} <br>{{ $account->contactemail }} <br> {{ $account->contactnumber }} <br> </td>
+                                                <td>
+                                                    <div class="alert alert-success">
+                                                        <strong>Accepted</strong>
+                                                    </div>
+                                                </td>
                                                     @break;
                                                 @endif
                                             @endif

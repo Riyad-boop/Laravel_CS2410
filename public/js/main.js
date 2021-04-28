@@ -15,7 +15,7 @@ function sortTableByLetters(n) {
     tableRows = mytable.rows;
   
     //Loop through all table rows
-    for (i = 1; i < (rows.length - 1); i++) {
+    for (i = 1; i < (tableRows.length - 1); i++) {
       //start by saying there should be no switching:
       shouldSwitch = false;
       /*Get the two elements to compare*/
@@ -54,7 +54,7 @@ function sortTableByDate(n) {
     tableRows = mytable.rows;
   
     //Loop through all table rows
-    for (i = 1; i < (rows.length - 1); i++) {
+    for (i = 1; i < (tableRows.length - 1); i++) {
       //start by saying there should be no switching:
       shouldSwitch = false;
       /*Get the two elements to compare*/
